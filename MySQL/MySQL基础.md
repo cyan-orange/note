@@ -273,7 +273,7 @@ HAVING
 
 查询返回的记录太多了，查看起来很不方便， 所谓分页显示，就是将数据库中的结果集，一段一段显示 出来需要的条件
 
-**注意：**limit子句必须放在整个查询语句的最后！
+**注意：** limit子句必须放在整个查询语句的最后！
 
 ```sql
 select table from column limit start pageSize;
