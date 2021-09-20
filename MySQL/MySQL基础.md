@@ -281,11 +281,11 @@ select table from column limit start pageSize;
 
 
 
-**start：**就是当前页的起始索引
+**start：** 就是当前页的起始索引
 
-**pageSize：**就是每页的条数
+**pageSize：** 就是每页的条数
 
-**currentPage：**就是当前页
+**currentPage：** 就是当前页
 
 公式：
 
