@@ -15,18 +15,19 @@
 
 
 
-#查询员工名中包含 'a' 的员工信息
+查询员工名中包含 'a' 的员工信息
 
-
-```
+```sql
 select * from employees  where last_name like '%a%';
 ```
 
 
-#查询员工名中第二个字母为_的员工信息
 
 
-```
+查询员工名中第二个字母为_的员工信息
+
+
+```sql
 #转移字符
 select * from employees  where last_name like '_\_%';
 
@@ -43,10 +44,10 @@ select * from employees  where last_name like '_$_%' escape '$';
 
 
 
-#查询员工编号在100到200之间的员工信息
+查询员工编号在100到200之间的员工信息
 
 
-```
+```sql
 select * from employees
 where employees_id between 100 and 200;
 ```
@@ -60,7 +61,7 @@ where employees_id between 100 and 200;
 
 
 
-#查询员工部门编号为1,3,5,7的员工姓名和部门编号
+查询员工部门编号为1,3,5,7的员工姓名和部门编号
 
 
 ```sql
@@ -77,10 +78,10 @@ where dpt_id in(1,3,5,7);
 
 
 
-#查询有奖金的员工信息
+查询有奖金的员工信息
 
 
-```
+```sql
 select * from employees
 where bonus is not null;
 ```
@@ -100,18 +101,19 @@ where bonus is not null;
 注意: `ORDER BY` 必须放在`WHERE`条件之后
 
 
-#查询员工信息,要求工资从高到底
+查询员工信息,要求工资从高到底
 
 
-```
+```sql
 select * from employees ORDER BY salary DESC;
 ```
 
 
-#查询员工信息,要求先按`工资升序`,再按员工`编号降序`
+
+查询员工信息,要求先按`工资升序`,再按员工`编号降序`
 
 
-```
+```sql
 select * from employees
 ORDER BY salary ASC,employess_id DESC;
 ```
@@ -131,7 +133,7 @@ ORDER BY salary ASC,employess_id DESC;
 ## 字符函数
 
 
-1. `length(agrs)`: 获取参数值的字节个数
+1. `length(agrs)`： 获取参数值的字节个数
 2. `concat(agrs,agrs1,...)`: 拼接字符串
 3. `upper(agrs)`: 将字母变大写
 4. `lower(agrs)`: 将字母变小写
@@ -159,54 +161,54 @@ ORDER BY salary ASC,employess_id DESC;
 
 
 1. `now()` : 返回当前系统日期+时间
+
 2. `curdate()`: 返回当前系统日期,不包含时间
+
 3. `curtime()`:返回当前系统时间,不包含日期
+
 4. `str_to_date(str)`: 将日期格式的字符转换成指定格式的日期
 
-
-
-```
-STR_TO_DATE('2019-4-19','%Y-%m-%d')
-```
+   ```sql
+   STR_TO_DATE('2019-4-19','%Y-%m-%d')
+   ```
 
 
 5. `date_format(date)`:将日期转换成字符
 
+   ```sql
+   DATE_FORMAT('2019/4/19','%Y年%m月%d日')
+   ```
 
-
-```
-DATE_FORMAT('2019/4/19','%Y年%m月%d日')
-```
+   
 
 
 ## 流程控制函数
 
 
 1. `if(expre1,expre2,expre3)`: `expre1`表示表达式,当条件成立时,选择值`expre2`,当条件不成立时选择值`expre3`
+
 2. `case` : 用法一
 
-
-
-```
-case dept_id #部门编号
-when 1 then salary*1.2 #如果是1号部门工资1.2倍
-when 2 then salary*1.3 #如果是2号部门工资1.3被
-when 3 then salary*1.4 #如果是2号部门工资1.4被
-else salary  #否则为原工资
-```
+   ```sql
+   case dept_id #部门编号
+   when 1 then salary*1.2 #如果是1号部门工资1.2倍
+   when 2 then salary*1.3 #如果是2号部门工资1.3被
+   when 3 then salary*1.4 #如果是2号部门工资1.4被
+   else salary  #否则为原工资
+   ```
 
 
 3. `case` : 用法二
 
+   ```sql
+   case 
+   when 表达式1 then 要显示的值1或表达式1
+   when 表达式2 then 要显示的值2或表达式2
+   when 表达式3 then 要显示的值3或表达式3
+   else 要显示的值n或表达式n
+   ```
 
-
-```
-case 
-when 表达式1 then 要显示的值1或表达式1
-when 表达式2 then 要显示的值2或表达式2
-when 表达式3 then 要显示的值3或表达式3
-else 要显示的值n或表达式n
-```
+   
 
 
 ## 分组函数
@@ -217,14 +219,16 @@ else 要显示的值n或表达式n
 3. `max` : 最大值,计算时忽略null值
 4. `min` : 最小值,计算时忽略null值
 5. `count`:计算个数,计算时忽略null值
-## 
+
+
+
 # 分组查询
 
 
 语法
 
 
-```
+```sql
 select 分组函数,列(要求出现在group by的后面)
 from 表
 [where 筛选条件] 
@@ -232,11 +236,32 @@ group by 分组的列表
 [order by 子句]
 ```
 
-
 **注意:** `查询列表`是`分组函数`和`group by` 后出现的字段
 
+案例：查询学生的男生和女生人数各是多少
 
-### 分组后筛选: `having`
+```sql
+SELECT gender, COUNT(*) 人数 FROM student  GROUP BY gender
+```
+
+
+
+## 分组后筛选: `having`
+
+案例：查询学生年各龄人数大于2的各年龄人数
+
+```sql
+SELECT
+	gender,
+	COUNT(*) 人数 
+FROM
+	student 
+GROUP BY
+	gender 
+HAVING
+	COUNT(*)>2
+```
+
 
 
 `group by` 和 `having` 都支持别名
@@ -248,26 +273,31 @@ group by 分组的列表
 
 查询返回的记录太多了，查看起来很不方便， 所谓分页显示，就是将数据库中的结果集，一段一段显示 出来需要的条件
 
-
 **注意：**limit子句必须放在整个查询语句的最后！
 
+```sql
+select table from column limit start pageSize;
+```
 
-**select ****table ****from ****column ****limit** start pageSize;
 
 
-**start：**就是当前页的起始索引,pageSize就是每页的条数
+**start：**就是当前页的起始索引
 
+**pageSize：**就是每页的条数
 
 **currentPage：**就是当前页
 
+公式：
 
-公式公式：**select ****table ****from ****column ****limit **(currentPage-1)*pageSize pageSize
+```sql
+select  tableName from column... limit (currentPage-1)*pageSize pageSize
+```
 
 
 # 连接查询
 
 
-连接查询又称为多表查寻
+连接查询又称为多表查询
 
 1. 内连接
    1. 等值连接
@@ -281,16 +311,17 @@ group by 分组的列表
 
 
 
-**语法**
+**语法：**
+
 ```sql
-	select 查询列表
-	from 表1 别名 【连接类型】
-	join 表2 别名 
-	on 连接条件
-	【where 筛选条件】
-	【group by 分组】
-	【having 筛选条件】
-	【order by 排序列表】
+select 查询列表
+from 表1 别名
+<连接类型> join 表2 别名 
+on 连接条件
+[where 筛选条件]
+[group by 分组]
+[having 筛选条件]
+[order by 排序列表]
 ```
 
 
@@ -305,9 +336,12 @@ group by 分组的列表
 
 ## 内连接
 特点：
-①添加排序、分组、筛选
-②inner可以省略
-③ 筛选条件放在where后面，连接条件放在on后面，提高分离性，便于阅读
+
+1. 添加排序、分组、筛选
+2. inner可以省略
+3.  筛选条件放在where后面，连接条件放在on后面，提高分离性，便于阅读
+
+
 
 
 分类：
@@ -327,17 +361,21 @@ on 连接条件;
 ```
 
 
+
 ### 等值连接
+
 案例1.查询员工名、部门名
 ```sql
 SELECT last_name,department_name
 FROM departments d
- JOIN  employees e
+JOIN  employees e
 ON e.`department_id` = d.`department_id`;
 ```
 
 
+
 案例2.查询名字中包含e的员工名和工种名（添加筛选）
+
 ```sql
 SELECT last_name,job_title
 FROM employees e
@@ -347,9 +385,12 @@ WHERE e.last_name LIKE '%e%';
 ```
 
 
+
 案例3. 查询部门个数>3的城市名和部门个数，（添加分组+筛选）
-①查询每个城市的部门个数
-②在①结果上筛选满足条件的
+
+1. 查询每个城市的部门个数
+2. 在1结果上筛选满足条件的
+
 ```sql
 SELECT city,COUNT(*) 部门个数
 FROM departments d
@@ -360,8 +401,11 @@ HAVING COUNT(*)>3;
 ```
 
 
+
 案例4.查询哪个部门的员工个数>3的部门名和员工个数，并按个数降序（添加排序）
-①查询每个部门的员工个数
+
+1. 查询每个部门的员工个数
+
 ```sql
 SELECT COUNT(*),department_name
 FROM employees e
@@ -369,7 +413,10 @@ INNER JOIN departments d
 ON e.department_id=d.department_id
 GROUP BY department_name
 ```
-② 在①结果上筛选员工个数>3的记录，并排序
+
+
+2. 在1结果上筛选员工个数>3的记录，并排序
+
 ```sql
 SELECT COUNT(*) 个数,department_name
 FROM employees e
@@ -381,7 +428,9 @@ ORDER BY COUNT(*) DESC;
 ```
 
 
+
 案例5.查询员工名、部门名、工种名，并按部门名降序（添加三表连接）
+
 ```sql
 SELECT last_name,department_name,job_title
 FROM employees e
@@ -391,7 +440,9 @@ ORDER BY department_name DESC;
 ```
 
 
+
 ### 非等值连接
+
 查询员工的工资级别
 ```sql
 SELECT salary,grade_level
@@ -401,7 +452,9 @@ FROM employees e
 ```
 
 
+
  查询工资级别的个数>20的个数，并且按工资级别降序
+
 ```sql
 SELECT COUNT(*),grade_level
 FROM employees e
@@ -413,8 +466,9 @@ FROM employees e
 ```
 
 
+
 ### 自连接
- 
+
  查询员工的名字、上级的名字
 ```sql
 SELECT e.last_name,m.last_name
@@ -434,18 +488,17 @@ SELECT e.last_name,m.last_name
 ```
 
 
+
 ## 外连接
- 
+
  应用场景：用于查询一个表中有，另一个表没有的记录
- 
+
  特点：
 
 1.  外连接的查询结果为主表中的所有记录，如果从表中有和它匹配的，则显示匹配的值，如果从表中没有和它匹配的，则显示null，外连接查询结果=内连接结果+主表中有而从表没有的记录
 1. 左外连接，left join左边的是主表，右外连接，right join右边的是主表
 1. 左外和右外交换两个表的顺序，可以实现同样的效果
 1. 全外连接=内连接的结果+表1中有但表2没有的+表2中有但表1没有的
-
-
 
 
 
@@ -458,7 +511,7 @@ SELECT d.*,e.employee_id
  ON d.`department_id` = e.`department_id`
  WHERE e.`employee_id` IS NULL;
 ```
- 
+
 
 
 ### 右外
@@ -470,8 +523,11 @@ SELECT d.*,e.employee_id
  ON d.`department_id` = e.`department_id`
  WHERE e.`employee_id` IS NULL;
 ```
-  
+
+
+
 ### 全外
+
 ```sql
 USE girls;
  SELECT b.*,bo.*
@@ -479,8 +535,11 @@ USE girls;
  FULL OUTER JOIN boys bo
  ON b.`boyfriend_id` = bo.id;
 ```
- 
+
+
+
 ## 交叉连接
+
 ```sql
 SELECT b.*,bo.*
  FROM beauty b
@@ -491,7 +550,6 @@ SELECT b.*,bo.*
 
 
 # 子查询
-
 
 子查询出现的位置
 select后面：仅仅支持标量（一列一行）子查询
@@ -553,6 +611,7 @@ CREATE TABLE if not exists  table_name（column_name column_type ...）;
 ```
 
 
+
 例 : 在这里，我们将在数据库“customers”中创建一个名为“cus_tbl”的表。
 
 
@@ -566,12 +625,14 @@ CREATE TABLE cus_tbl(
 ```
 
 
+
 ### 查看已创建的表
 
 
 ```sql
 show tables;
 ```
+
 
 
 ### 查看数据表的结构
